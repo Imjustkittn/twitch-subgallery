@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="viewer.css" />
+  <title>Sub Gallery – Config</title>
+</head>
+<body>
+  <div class="card">
+    <h3>Gallery Settings (Pink & Cutesy)</h3>
+    <div>
+      <input id="url" placeholder="Image URL" style="width:60%" />
+      <input id="title" placeholder="Title (optional)" />
+      <button id="add">Add Photo</button>
+      <button id="oauth">Grant Sub Read</button>
+    </div>
+  </div>
+  <div class="card"><h3>Photos</h3><div id="list" class="grid"></div></div>
+  <div class="card"><h3>Moderation Queue</h3><ul id="queue"></ul></div>
+
+  <template id="tile"><div class="photo kawaii"><img class="img" /><div class="meta"><div class="title"></div><button class="del">Delete</button></div></div></template>
+  <script src="https://extension-files.twitch.tv/helper/v1/twitch-ext.min.js"></script>
+  <script src="config.js"></script>
+</body>
+</html>
