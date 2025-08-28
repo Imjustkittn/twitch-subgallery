@@ -4,14 +4,13 @@
   "private": true,
   "type": "module",
   "engines": { "node": ">=18" },
-"scripts": {
-  "build": "tsc && npx prisma db push",
-  "start": "node dist/index.js",
-  "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
-  "prisma:generate": "prisma generate",
-  "prisma:migrate": "prisma migrate deploy"
-}
-}
+  "scripts": {
+    "build": "tsc && npx prisma db push",
+    "start": "node dist/index.js",
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate deploy"
+  },
   "dependencies": {
     "@prisma/client": "^5.22.0",
     "axios": "^1.7.4",
@@ -21,11 +20,11 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/jsonwebtoken": "^9.0.5",
-    "@types/node": "^22.5.4",
-    "@types/cors": "^2.8.17",
     "@types/morgan": "^1.9.6",
+    "@types/node": "^22.5.4",
     "prisma": "^5.22.0",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
