@@ -8,14 +8,18 @@ export const photos = Router();
 
 photos.get('/', requireExtJWT, async (req, res) => {
   const ext = (req as any).ext as any;
-  const { channel_id, user_id } = ext;
-  if (!user_id) return res.status(403).json({ error: 'link_identity' });
 
-  const ok = await isSubscriber(channel_id, user_id);
-  if (!ok) return res.status(403).json({ error: 'not_subscribed' });
+  // Broadcaster/mods can always view (needed for Config page).
+  if (ext.role !== 'broadcaster' && ext.role !== 'moderator') {
+    const { channel_id, user_id } = ext;
+    if (!user_id) return res.status(403).json({ error: 'link_identity' });
+
+    const ok = await isSubscriber(channel_id, user_id);
+    if (!ok) return res.status(403).json({ error: 'not_subscribed' });
+  }
 
   const list = await prisma.photo.findMany({
-    where: { broadcasterId: channel_id, status: 'ACTIVE' },
+    where: { broadcasterId: ext.channel_id, status: 'ACTIVE' },
     orderBy: { createdAt: 'desc' },
     include: { counters: true }
   });
@@ -31,6 +35,7 @@ photos.get('/', requireExtJWT, async (req, res) => {
     }))
   );
 });
+
 
 photos.post('/', requireExtJWT, async (req, res) => {
   const ext = (req as any).ext as any;
