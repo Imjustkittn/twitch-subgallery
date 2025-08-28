@@ -28,15 +28,18 @@ model BroadcasterToken {
 }
 
 model Photo {
-  id            String       @id @default(cuid())
+  id            String        @id @default(cuid())
   broadcasterId String
   url           String
   title         String?
   description   String?
-  status        PhotoStatus  @default(ACTIVE)
-  createdAt     DateTime     @default(now())
+  status        PhotoStatus   @default(ACTIVE)
+  createdAt     DateTime      @default(now())
+
   tips          PhotoTip[]
   comments      PhotoComment[]
+
+  // one-to-one counter record for aggregate totals
   counters      PhotoCounter?
 
   @@index([broadcasterId])
@@ -47,6 +50,9 @@ model PhotoCounter {
   photoId   String  @unique
   totalBits Int     @default(0)
   comments  Int     @default(0)
+
+  // back-reference to Photo (this completes the relation)
+  photo     Photo   @relation(fields: [photoId], references: [id])
 }
 
 model PhotoTip {
@@ -57,6 +63,8 @@ model PhotoTip {
   viewerId      String?
   opaqueId      String
   createdAt     DateTime @default(now())
+
+  photo         Photo    @relation(fields: [photoId], references: [id])
 
   @@index([photoId])
 }
@@ -70,6 +78,8 @@ model PhotoComment {
   status        CommentStatus @default(PENDING)
   transactionId String        @unique
   createdAt     DateTime      @default(now())
+
+  photo         Photo         @relation(fields: [photoId], references: [id])
 
   @@index([photoId])
 }
