@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: subgallery-ebs
+    env: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install && npx prisma generate && npm run build
+    startCommand: npm start
+    autoDeploy: true
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: subgallery-db
+          property: connectionString
+      - key: EXT_CLIENT_ID
+        sync: false
+      - key: EXT_OWNER_ID
+        sync: false
+      - key: EXT_SECRET_BASE64
+        sync: false
+      - key: TWITCH_APP_CLIENT_ID
+        sync: false
+      - key: TWITCH_APP_CLIENT_SECRET
+        sync: false
+      - key: OAUTH_REDIRECT_URI
+        sync: false
+databases:
+  - name: subgallery-db
+    plan: free
